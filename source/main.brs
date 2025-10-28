@@ -2,6 +2,7 @@
 
 Function Init() as Object
   obj = { 
+    audio_url: "http://192.168.1.101:8000/output.mp3"
     port: CreateObject("roMessagePort")
     screen: CreateObject("roSpringboardScreen")
     player: CreateObject("roAudioPlayer")
@@ -15,9 +16,9 @@ Function Init() as Object
     end function
     playingNow: function()
         m.screen.ClearButtons()
-        m.screen.AddButton(1, "Pause Stream")
+        m.screen.AddButton(1, "Pause stream")
         m.screen.AddButton(3, "Exit")
-        m.DrawScreen("Live MP3 Stream from KEXP.org")
+        m.DrawScreen("Streaming " + m.audio_url + "...")
     end function
     play: function()
         if m.status = "" then
@@ -33,7 +34,7 @@ Function Init() as Object
         m.screen.ClearButtons()
         m.screen.AddButton(3, "Exit")
 
-        m.drawScreen("Buffering....")
+        m.drawScreen("Buffering...")
     end function
     pause: function()
         if m.status = "playing" then
@@ -42,13 +43,13 @@ Function Init() as Object
         endif
         
         m.screen.ClearButtons()
-        m.screen.AddButton(2, "Resume Stream")
+        m.screen.AddButton(2, "Resume stream")
         m.screen.AddButton(3, "Exit")
 
-        m.drawScreen("Stream Paused")
+        m.drawScreen("Stream paused")
     end function
     exit: function() 
-        print "Goodbye World!"
+        print "Goodbye, world!"
         m.player.stop()
         return 0
     end function
@@ -58,13 +59,13 @@ Function Init() as Object
   
 
   obj.screen_options.ContentType = "episode"
-  obj.screen_options.Title = "KEXP"
+  obj.screen_options.Title = "Audio File Streamer"
   obj.screen_options.SDPosterURL = "pkg:/images/episode_icon_sd.png"
   obj.screen_options.HDPosterURL = "pkg:/images/episode_icon_sd.png"
   obj.screen.SetStaticRatingEnabled(false)
 
 
-  obj.song.Url = "http://kexp-mp3-2.cac.washington.edu:8000/"
+  obj.song.Url = obj.audio_url
   obj.song.StreamFormat = "mp3"
   obj.status = ""
   return(obj)
